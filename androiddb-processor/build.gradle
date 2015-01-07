@@ -1,27 +1,21 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven { url 'http://repo.springsource.org/plugins-release' }
-    }
-    dependencies {
-        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.6'
-    }
-}
+version = VERSION_NAME
+group = GROUP
 
 apply plugin: 'java'
-apply plugin: 'propdeps'
-apply plugin: 'propdeps-idea'
 apply from: file('../deploy.gradle')
 
 targetCompatibility = JavaVersion.VERSION_1_6
 sourceCompatibility = JavaVersion.VERSION_1_6
 
+configurations {
+    provided
+}
+
+//Include provided for compilation
+sourceSets.main.compileClasspath += configurations.provided
+
 dependencies {
-    repositories {
-        mavenCentral()
-    }
     compile project(':androiddb')
-    compile 'com.google.guava:guava:18.0'
     compile 'com.squareup:javawriter:2.5.0'
 
     testCompile 'junit:junit:4.10'
