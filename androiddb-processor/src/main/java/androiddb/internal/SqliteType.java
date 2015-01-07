@@ -16,11 +16,10 @@
 
 package androiddb.internal;
 
-import com.google.common.collect.Sets;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.lang.model.element.Element;
@@ -33,28 +32,28 @@ import tale.androiddb.Field;
  * Sqlite3 Types
  */
 enum SqliteType {
-    NULL(Sets.newHashSet(Arrays.asList(TypeKind.NULL)), Collections.<String>emptySet()),
-    INTEGER(Sets.newHashSet(Arrays.asList(
+    NULL(new HashSet<TypeKind>(Arrays.asList(TypeKind.NULL)), Collections.<String>emptySet()),
+    INTEGER(new HashSet<TypeKind>(Arrays.asList(
             TypeKind.INT,
             TypeKind.SHORT,
             TypeKind.LONG,
             TypeKind.BOOLEAN // true false types
-    )), Sets.newHashSet(Arrays.asList(
+    )), new HashSet<String>(Arrays.asList(
             Integer.class.getName(),
             Short.class.getName(),
             Long.class.getName(),
             Boolean.class.getName(), // true false types
             Date.class.getName()
     ))),
-    REAL(Sets.newHashSet(Arrays.asList(
+    REAL(new HashSet<TypeKind>(Arrays.asList(
             TypeKind.DOUBLE,
             TypeKind.FLOAT
-    )), Sets.newHashSet(Arrays.asList(
+    )), new HashSet<String>(Arrays.asList(
             Double.class.getName(),
             Float.class.getName(),
             Number.class.getName()
     ))),
-    TEXT(Collections.<TypeKind>emptySet(), Sets.newHashSet(Arrays.asList(
+    TEXT(Collections.<TypeKind>emptySet(), new HashSet<String>(Arrays.asList(
             String.class.getName()
     ))),
     BLOB(Collections.<TypeKind>emptySet(), Collections.<String>emptySet()),

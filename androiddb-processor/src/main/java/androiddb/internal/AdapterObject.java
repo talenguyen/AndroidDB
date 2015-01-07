@@ -1,7 +1,6 @@
 package androiddb.internal;
 
 
-import com.google.common.collect.Lists;
 import com.squareup.javawriter.JavaWriter;
 
 import java.io.ByteArrayInputStream;
@@ -51,7 +50,7 @@ class AdapterObject {
     private boolean isChildTable = false;
     private String idColumnName;
 
-    private final List<TableColumn> columns = Lists.newLinkedList();
+    private final List<TableColumn> columns = new LinkedList<TableColumn>();
 
     AdapterObject(Element element, String classPackage, String className, ProcessorLogger logger) {
         this.element = element;
@@ -81,7 +80,7 @@ class AdapterObject {
     }
 
     String getTableName() {
-        return element.toString().replace(".", "_");
+        return element.getSimpleName().toString().replace(".", "_");
     }
 
     String getTargetClass() {
@@ -235,7 +234,7 @@ class AdapterObject {
         javaWriter.beginMethod("ContentValues", "asContentValues", EnumSet.of(PUBLIC),
                 getTargetClass(), "target")
                 .emitStatement("ContentValues values = new ContentValues()");
-        List<TableColumn> childColumns = Lists.newLinkedList();
+        List<TableColumn> childColumns = new LinkedList<TableColumn>();
         for (TableColumn column : columns) {
             String columnName = column.getColumnName();
             if (column.isBlob() && !column.isByteArray()) {

@@ -16,12 +16,11 @@
 
 package androiddb.internal;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.Writer;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -68,7 +67,7 @@ public final class AndroidDBProcessor extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        Set<String> supportTypes = Sets.newLinkedHashSet();
+        Set<String> supportTypes = new LinkedHashSet<String>();
         supportTypes.add(Table.class.getCanonicalName());
 
         return supportTypes;
@@ -80,8 +79,8 @@ public final class AndroidDBProcessor extends AbstractProcessor {
 
         long startTime = System.currentTimeMillis();
 
-        Map<String, AdapterObject> tableObjectCache = Maps.newHashMap();
-        oneToManyCache = Maps.newHashMap();
+        Map<String, AdapterObject> tableObjectCache = new HashMap<String, AdapterObject>();
+        oneToManyCache = new HashMap<String, AdapterObject>();
 
         for (TypeElement annotation : annotations) {
             Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(annotation);
