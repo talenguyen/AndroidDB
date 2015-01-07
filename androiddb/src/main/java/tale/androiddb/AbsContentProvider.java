@@ -46,6 +46,22 @@ public abstract class AbsContentProvider extends ContentProvider {
     protected abstract String getAuthority();
 
     @Override
+    public String getType(Uri uri) {
+        final UriMatched uriMatched = scanUri(uri);
+        if (uriMatched == null) {
+            throw new IllegalArgumentException("Unknown URI " + uri);
+        } else {
+            final long id = uriMatched.getId();
+            final String tableName = uriMatched.getTableName();
+            if (id == UriMatched.UNKNOWN_ID) {
+                return "vnd.android.cursor.item/" + tableName;
+            } else {
+                return "vnd.android.cursor.dir/" + tableName;
+            }
+        }
+    }
+
+    @Override
     public int bulkInsert(Uri uri, ContentValues[] values) {
         final UriMatched uriMatched = scanUri(uri);
         // Validates the incoming URI. Only the full provider URI is allowed for
@@ -90,7 +106,7 @@ public abstract class AbsContentProvider extends ContentProvider {
             }
         }
         /*
-		 * Gets a handle to the content resolver object for the current context,
+         * Gets a handle to the content resolver object for the current context,
 		 * and notifies it that the incoming URI changed. The object passes this
 		 * along to the resolver framework, and observers that have registered
 		 * themselves for the provider are notified.
