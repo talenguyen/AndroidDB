@@ -54,9 +54,9 @@ public abstract class AbsContentProvider extends ContentProvider {
             final long id = uriMatched.getId();
             final String tableName = uriMatched.getTableName();
             if (id == UriMatched.UNKNOWN_ID) {
-                return "vnd.android.cursor.item/" + tableName;
+                return String.format("vnd.android.cursor.item/vnd.%s.%s", getAuthority(), tableName);
             } else {
-                return "vnd.android.cursor.dir/" + tableName;
+                return String.format("vnd.android.cursor.dir/vnd.%s.%s", getAuthority(), tableName);
             }
         }
     }
